@@ -1,0 +1,24 @@
+cypher notes
+
+LOAD CSV WITH HEADERS FROM "file:////Users/eddie.dickey/QESandbox/QE_Sandbox_Utils/tc.csv" AS Line
+WITH Line.`Eggplant Script Name` AS sName Return sName
+
+
+LOAD CSV WITH HEADERS FROM "file:////Users/eddie.dickey/QESandbox/QE_Sandbox_Utils/tc.csv" AS Line
+WITH Line
+MERGE (script:Script { name: line.`Eggplant Script Name` })
+RETURN script
+
+
+Shell:
+
+2.3.2 (master) 89 $ ./bin/neo4j-shell -path ./libexec/data/
+Using Current JDK
+/Library/Java/JavaVirtualMachines/jdk1.8.0_65.jdk/Contents/Home
+Im at bin/java
+about to execute ....
+NOTE: Local Neo4j graph database service at './libexec/data/'
+Welcome to the Neo4j Shell! Enter 'help' for a list of commands
+
+
+neo4j-sh (?)$
