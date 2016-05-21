@@ -1,4 +1,4 @@
-package com.logicalpath.sandbox.utils;
+package com.mfoundry.qe.sandbox.utils;
 
 import java.io.IOException;
 import java.nio.*;
@@ -15,17 +15,11 @@ import java.util.List;
 public class ParseDir {
 	
 	private String suiteName;
+	private static final String glob_CB1 = "C[0-9]*B1.script";
+	private static final String glob_CAll = "C[0-9]*.script";
 
-	
-	
 	public ParseDir(String sdir) {
-		System.out.println("Hello from the constructor");
 				
-	}
-	
-	public <T> List<Path> getYaml(String sdir) {
-		List<Path> yamlList = new ArrayList<>();
-		return yamlList;
 	}
 	
 	public String getSuiteName() {
@@ -40,7 +34,7 @@ public class ParseDir {
 		suiteName = dir.getName(pthSize -2).toString();
 		
 				
-		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "C[0-9]*.script")) {
+		try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, glob_CAll)) {
 		    for (Path file: stream) {
 		        scriptList.add(file);
 		    }

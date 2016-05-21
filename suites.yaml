@@ -1,0 +1,4 @@
+Suites:
+    REGRESSIONS: "/Users/eddie.dickey/Documents/4.0Regressions.suite/Scripts"
+    GP405:  "/Users/eddie.dickey/Documents/4xTrunk/4.0.5GoldenPath.suite/Scripts"
+    GP400: "/Users/eddie.dickey/Documents/4xTrunk/4.0GoldenPath.suite/Scripts"

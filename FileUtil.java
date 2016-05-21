@@ -1,4 +1,4 @@
-package com.logicalpath.sandbox.utils;
+package com.mfoundry.qe.sandbox.utils;
 
 import java.io.IOException;
 import java.nio.*;
@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.StringJoiner;
 import java.util.stream.Stream;
+import java.io.InputStream;
 
 import org.yaml.snakeyaml.Yaml;
 
@@ -21,44 +22,47 @@ import com.mfoundry.qe.sandbox.*;
 
 @SuppressWarnings("unused")
 public class FileUtil {
-	
-	private static String REGRESSIONS = "/Users/eddie.dickey/Documents/4.0Regressions.suite/Scripts";
-	private static String GP405 = "/Users/eddie.dickey/Documents/4xTrunk/4.0.5GoldenPath.suite/Scripts";
-	private static String GP400 = "/Users/eddie.dickey/Documents/4xTrunk/4.0GoldenPath.suite/Scripts";
 
-	
+	private static List<String> suiteList = new ArrayList<>();
 	private static List<Path> fileList = new ArrayList<>();
+	private static List<Path> yamlList = new ArrayList<>();
 	private static List<String> csvValues = new ArrayList<>();
+	
 	
 	private String suiteName = null;
 	private int numCols = 4;
 	
 
 	public static void main( final String[] args ) throws IOException
-    {
-        
-        for (String s: args) {
-            System.out.println(s);
-        }
-        
-        Yaml yaml = new Yaml();
-        
-        String dir = GP405;
-
+    {        
+      
         FileUtil futil = new FileUtil();
-        futil.listYaml(args[1]);
         
-        futil.listDir(dir);
+        // open the yaml file and get the names of the directories to open
+        futil.getConfig(args[0]);
         
-        futil.processFiles();
-        futil.writeCSVFile();
-//        futil.ik();
-                
+
+        // start loop - for each dir in the cfg:  
+        suiteList.forEach((dir) -> {
+        	System.out.println("dir is  " + dir);
+        	fileList = null;
+        	futil.listDir(dir);     
+        	futil.processFiles();
+        	futil.writeCSVFile();
+        	
+
+        // end loop
+        });
+        
         return;
                 
     }
 	
-	void listYaml (String sdir) {
+	@SuppressWarnings("unchecked")
+	void getConfig (String fname) {
+		suiteList = null;
+		Configuration cfg = new Configuration(fname);
+		suiteList = cfg.getSuites();		
 		
 	}
 	
@@ -75,6 +79,10 @@ public class FileUtil {
 		String substr = null;
 		String scriptName = null;
 		StringJoiner sj = new StringJoiner(",");
+		
+		// empty the list
+		csvValues.clear();
+		
 		// Add the Header 
 		sj.add("Suite Name").add("Eggplant Script Name").add("Testrail Test Case ID").add("Test Case Description");
 		csvValues.add(sj.toString());
@@ -137,9 +145,7 @@ public class FileUtil {
 				
 			} catch (IOException e) {
 				e.printStackTrace();
-				}
-//			System.out.println(sj.toString());
-			
+				}			
 			}					
 	}
 	
@@ -147,6 +153,7 @@ public class FileUtil {
 		String fname = "./" + suiteName + ".csv";
 		Path csvFile = Paths.get(fname);
 		System.out.println("suite is " + suiteName);
+		suiteName = null;
 		
 		csvValues.forEach(v -> System.out.println(v));
 		System.out.println(csvValues.size());
