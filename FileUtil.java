@@ -1,4 +1,4 @@
-package com.mfoundry.qe.sandbox.utils;
+package com.logicalpath.sandbox.utils;
 
 import java.io.IOException;
 import java.nio.*;
